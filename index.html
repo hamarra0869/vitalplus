@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vital Plus Express | Agrotech Decision Engine</title>
+    <style>
+        /* ==========================================
+           1. TOKENS & DESIGN SYSTEM (CSS Variables)
+           ========================================== */
+        :root {
+            --primary: #1b5e20;
+            --primary-dark: #0d3811;
+            --primary-light: #4c8c4a;
+            --accent: #ff8f00;
+            --bg-main: #f4f6f4;
+            --surface: #ffffff;
+            --text-main: #1a1c1a;
+            --text-muted: #5e665e;
+            --border: #d0d7d0;
+            --danger: #c62828;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==========================================
+           2. RESET & BASE STYLES
+           ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Viewport Constraint: Single View, Zero Scroll */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 850px;
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 481px) {
+            .app-container {
+                border-radius: var(--radius);
+                border: 1px solid var(--border);
+            }
+        }
+
+        /* ==========================================
+           3. HTML SHELL & LAYOUT COMPONENTS
+           ========================================== */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .brand h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            font-size: 0.7rem;
+            opacity: 0.85;
+            display: block;
+        }
+
+        .admin-trigger {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .admin-trigger:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        main {
+            flex: 1;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            background: #fafafa;
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.1);
+        }
+
+        /* Summary Panel / Receipt View */
+        .summary-box {
+            background: #f1f8f1;
+            border: 1px dashed var(--primary-light);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+
+        .summary-row.total {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+            padding-top: 4px;
+            margin-top: 2px;
+        }
+
+        .discount-tag {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Action Footer */
+        footer {
+            padding: 12px 16px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+        }
+
+        .btn-whatsapp:active {
+            transform: scale(0.98);
+            background: #1ebe57;
+        }
+
+        /* Admin Modal Overlay */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .modal-header h3 {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .admin-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 4px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 2px;
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header>
+            <div class="brand">
+                <h1>Vital Plus Express</h1>
+                <span>C.U.E.C.D.A. • Agrotech Decision Engine</span>
+            </div>
+            <button class="admin-trigger" id="btnOpenAdmin">Admin</button>
+        </header>
+
+        <!-- MAIN VIEW (Zero Scroll Enforced layout) -->
+        <main>
+            <!-- Client Info Card -->
+            <div class="card">
+                <div class="card-title">1. Coordonnées Exploitation</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="clientName">Nom complet</label>
+                        <input type="text" id="clientName" placeholder="Ex: Kouassi Jean">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientZone">Localisation / Zone</label>
+                        <input type="text" id="clientZone" placeholder="Ex: Daloa">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agronomic Parameters Card -->
+            <div class="card">
+                <div class="card-title">2. Paramètres Agraires</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cropSelect">Culture cible</label>
+                        <select id="cropSelect">
+                            <!-- Injected dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="surfaceInput">Surface (Ha)</label>
+                        <input type="number" id="surfaceInput" min="0.1" step="0.1" value="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Calculation & Receipt View -->
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span id="labelInputName">Intrant : -</span>
+                    <span id="valDosage">-</span>
+                </div>
+                <div class="summary-row">
+                    <span>Prix Brut Total :</span>
+                    <span id="valBrut">0 FCFA</span>
+                </div>
+                <div class="summary-row">
+                    <span>Remise Appliquée :</span>
+                    <span class="discount-tag" id="valDiscount">0% (0 FCFA)</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Montant Final TTC :</span>
+                    <span id="valTotal">0 FCFA</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER / ACTION -->
+        <footer>
+            <button class="btn-whatsapp" id="btnWhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                </svg>
+                Générer Bon WhatsApp
+            </button>
+        </footer>
+
+        <!-- ADMIN MODAL -->
+        <div class="modal-overlay" id="adminModal">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>Panneau Administration</h3>
+                    <button class="btn-close" id="btnCloseAdmin">&times;</button>
+                </div>
+                
+                <div class="form-group" id="authGroup">
+                    <label for="adminCodeInput">Code Sécurité Admin</label>
+                    <input type="password" id="adminCodeInput" placeholder="Entrez le code secret">
+                </div>
+
+                <div id="adminPanelContent" style="display:none; display:flex; flex-direction:column; gap:10px;">
+                    <div class="admin-section-title">Tarifs Unitaires Intrants (FCFA)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Riz (Sac)</label>
+                            <input type="number" id="admPriceRiz" value="25000">
+                        </div>
+                        <div class="form-group">
+                            <label>Cacao (Sachet)</label>
+                            <input type="number" id="admPriceCacao" value="12000">
+                        </div>
+                        <div class="form-group">
+                            <label>Maraîcher (Bidon)</label>
+                            <input type="number" id="admPriceMaraicher" value="8500">
+                        </div>
+                        <div class="form-group">
+                            <label>Hévéa (Bidon)</label>
+                            <input type="number" id="admPriceHevea" value="15000">
+                        </div>
+                    </div>
+
+                    <div class="admin-section-title">Seuils et Taux de Remise Globaux</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Seuil 1 (FCFA)</label>
+                            <input type="number" id="admThreshold1" value="500000">
+                        </div>
+                        <div class="form-group">
+                            <label>Remise 1 (%)</label>
+                            <input type="number" id="admDiscount1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Seuil 2 (FCFA)</label>
+                            <input type="number" id="admThreshold2" value="1000000">
+                        </div>
+                        <div class="form-group">
+                            <label>Remise 2 (%)</label>
+                            <input type="number" id="admDiscount2" value="10">
+                        </div>
+                    </div>
+
+                    <div class="admin-section-title">Ratios par Type de Culture (par Ha)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Riz (sacs/Ha)</label>
+                            <input type="number" id="admRatioRiz" value="4">
+                        </div>
+                        <div class="form-group">
+                            <label>Cacao (sachets/Ha)</label>
+                            <input type="number" id="admRatioCacao" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Maraîcher (bidons/Ha)</label>
+                            <input type="number" id="admRatioMaraicher" value="6">
+                        </div>
+                        <div class="form-group">
+                            <label>Hévéa (bidons/Ha)</label>
+                            <input type="number" id="admRatioHevea" value="8">
+                        </div>
+                    </div>
+
+                    <button class="btn-save" id="btnSaveConfig">Sauvegarder les Paramètres</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       JAVASCRIPT CORE (ES6 Vanilla Architecture)
+       ========================================== -->
+    <script>
+        'use strict';
+
+        /* ------------------------------------------
+           LAYER 3: STATE STORE (Persistence & Data)
+           ------------------------------------------ */
+        const STORAGE_KEY = 'VITAL_PLUS_EXPRESS_CONFIG_V1';
+
+        const DEFAULT_CONFIG = {
+            secretCode: "CUECDA2026",
+            crops: {
+                riz: { name: "Riz", unit: "sacs", price: 25000, ratio: 4 },
+                cacao: { name: "Cacao", unit: "sachets", price: 12000, ratio: 10 },
+                maraicher: { name: "Maraîcher", unit: "bidons", price: 8500, ratio: 6 },
+                hevea: { name: "Hévéa", unit: "bidons", price: 15000, ratio: 8 }
+            },
+            discounts: [
+                { threshold: 1000000, rate: 10 },
+                { threshold: 500000, rate: 5 }
+            ]
+        };
+
+        class StateStore {
+            constructor() {
+                this.load();
+            }
+
+            load() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) {
+                        this.config = JSON.parse(raw);
+                    } else {
+                        this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                        this.save();
+                    }
+                } catch (e) {
+                    this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                }
+            }
+
+            save() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.config));
+                } catch (e) {
+                    console.error("Storage persistence error", e);
+                }
+            }
+
+            getConfig() {
+                return this.config;
+            }
+
+            updateConfig(newConfig) {
+                this.config = newConfig;
+                this.save();
+            }
+        }
+
+        const store = new StateStore();
+
+        /* ------------------------------------------
+           LAYER 4: BUSINESS LOGIC (Calculations)
+           ------------------------------------------ */
+        class BusinessLogic {
+            static sanitize(str) {
+                const temp = document.createElement('div');
+                temp.textContent = str;
+                return temp.innerHTML;
+            }
+
+            static calculate(cropKey, surface) {
+                const config = store.getConfig();
+                const cropData = config.crops[cropKey] || config.crops['riz'];
+                
+                const surf = Math.max(0.1, parseFloat(surface) || 0);
+                const quantity = Math.ceil(surf * cropData.ratio);
+                const brutPrice = quantity * cropData.price;
+
+                // Find global discount based on thresholds
+                let discountRate = 0;
+                // Sort descending by threshold to evaluate higher threshold first
+                const sortedDiscounts = [...config.discounts].sort((a, b) => b.threshold - a.threshold);
+                for (let d of sortedDiscounts) {
+                    if (brutPrice >= d.threshold) {
+                        discountRate = d.rate;
+                        break;
+                    }
+                }
+
+                const discountAmount = Math.round(brutPrice * (discountRate / 100));
+                const finalPrice = brutPrice - discountAmount;
+
+                return {
+                    cropName: cropData.name,
+                    unitName: cropData.unit,
+                    quantity: quantity,
+                    unitPrice: cropData.price,
+                    brutPrice: brutPrice,
+                    discountRate: discountRate,
+                    discountAmount: discountAmount,
+                    finalPrice: finalPrice
+                };
+            }
+
+            static generateWhatsAppLink(clientName, clientZone, cropKey, surface) {
+                const name = this.sanitize(clientName.trim()) || "Client Anonyme";
+                const zone = this.sanitize(clientZone.trim()) || "Zone Non Spécifiée";
+                const calc = this.calculate(cropKey, surface);
+
+                const message = 
+`CLIENT : ${name}
+LOCALISATION : ${zone}
+CULTURE : ${calc.cropName}
+SURFACE : ${surface} Ha
+DOSAGE TECHNIQUE : ${calc.quantity} ${calc.unitName}
+MONTANT TOTAL (TTC) : ${calc.finalPrice.toLocaleString()} FCFA
+STATUT : Commande générée via Vital Plus Express`;
+
+                // C.U.E.C.D.A Official destination phone number placeholder / integration
+                const targetPhone = "22500000000"; 
+                return `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(message)}`;
+            }
+        }
+
+        /* ------------------------------------------
+           LAYER 5: UI CONTROLLER (DOM Binding & 60 FPS)
+           ------------------------------------------ */
+        class UIController {
+            constructor() {
+                this.bindElements();
+                this.initListeners();
+                this.renderCropOptions();
+                this.updateCalculations();
+            }
+
+            bindElements() {
+                this.cropSelect = document.getElementById('cropSelect');
+                this.surfaceInput = document.getElementById('surfaceInput');
+                this.clientNameInput = document.getElementById('clientName');
+                this.clientZoneInput = document.getElementById('clientZone');
+                
+                this.labelInputName = document.getElementById('labelInputName');
+                this.valDosage = document.getElementById('valDosage');
+                this.valBrut = document.getElementById('valBrut');
+                this.valDiscount = document.getElementById('valDiscount');
+                this.valTotal = document.getElementById('valTotal');
+                
+                this.btnWhatsApp = document.getElementById('btnWhatsApp');
+                this.btnOpenAdmin = document.getElementById('btnOpenAdmin');
+                this.btnCloseAdmin = document.getElementById('btnCloseAdmin');
+                this.adminModal = document.getElementById('adminModal');
+                this.adminCodeInput = document.getElementById('adminCodeInput');
+                this.adminPanelContent = document.getElementById('adminPanelContent');
+                this.authGroup = document.getElementById('authGroup');
+                this.btnSaveConfig = document.getElementById('btnSaveConfig');
+            }
+
+            renderCropOptions() {
+                const config = store.getConfig();
+                this.cropSelect.innerHTML = '';
+                for (let key in config.crops) {
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.textContent = config.crops[key].name;
+                    this.cropSelect.appendChild(opt);
+                }
+            }
+
+            updateCalculations() {
+                const cropKey = this.cropSelect.value;
+                const surface = this.surfaceInput.value;
+                const calc = BusinessLogic.calculate(cropKey, surface);
+
+                this.labelInputName.textContent = `Intrant (${calc.cropName}) :`;
+                this.valDosage.textContent = `${calc.quantity} ${calc.unitName}`;
+                this.valBrut.textContent = `${calc.brutPrice.toLocaleString()} FCFA`;
+                this.valDiscount.textContent = `${calc.discountRate}% (-${calc.discountAmount.toLocaleString()} FCFA)`;
+                this.valTotal.textContent = `${calc.finalPrice.toLocaleString()} FCFA`;
+            }
+
+            initListeners() {
+                // Real-time reactive calculation loop
+                const triggerUpdate = () => {
+                    requestAnimationFrame(() => this.updateCalculations());
+                };
+
+                this.cropSelect.addEventListener('change', triggerUpdate);
+                this.surfaceInput.addEventListener('input', triggerUpdate);
+
+                // WhatsApp Action trigger
+                this.btnWhatsApp.addEventListener('click', () => {
+                    const name = this.clientNameInput.value;
+                    const zone = this.clientZoneInput.value;
+                    const cropKey = this.cropSelect.value;
+                    const surface = this.surfaceInput.value;
+
+                    const url = BusinessLogic.generateWhatsAppLink(name, zone, cropKey, surface);
+                    window.open(url, '_blank');
+                });
+
+                // Admin Modal handlers
+                this.btnOpenAdmin.addEventListener('click', () => {
+                    this.adminModal.classList.add('active');
+                    this.adminCodeInput.value = '';
+                    this.authGroup.style.display = 'flex';
+                    this.adminPanelContent.style.display = 'none';
+                    this.adminCodeInput.focus();
+                });
+
+                this.btnCloseAdmin.addEventListener('click', () => {
+                    this.adminModal.classList.remove('active');
+                });
+
+                // Secret Code validation listener
+                this.adminCodeInput.addEventListener('input', (e) => {
+                    const config = store.getConfig();
+                    if (e.target.value === config.secretCode) {
+                        this.authGroup.style.display = 'none';
+                        this.adminPanelContent.style.display = 'flex';
+                        this.populateAdminFields();
+                    }
+                });
+
+                // Save configuration listener
+                this.btnSaveConfig.addEventListener('click', () => {
+                    this.saveAdminConfig();
+                });
+            }
+
+            populateAdminFields() {
+                const cfg = store.getConfig();
+                document.getElementById('admPriceRiz').value = cfg.crops.riz.price;
+                document.getElementById('admPriceCacao').value = cfg.crops.cacao.price;
+                document.getElementById('admPriceMaraicher').value = cfg.crops.maraicher.price;
+                document.getElementById('admPriceHevea').value = cfg.crops.hevea.price;
+
+                document.getElementById('admRatioRiz').value = cfg.crops.riz.ratio;
+                document.getElementById('admRatioCacao').value = cfg.crops.cacao.ratio;
+                document.getElementById('admRatioMaraicher').value = cfg.crops.maraicher.ratio;
+                document.getElementById('admRatioHevea').value = cfg.crops.hevea.ratio;
+
+                // Find thresholds dynamically
+                const t1 = cfg.discounts.find(d => d.rate === 5) || { threshold: 500000 };
+                const t2 = cfg.discounts.find(d => d.rate === 10) || { threshold: 1000000 };
+                document.getElementById('admThreshold1').value = t1.threshold;
+                document.getElementById('admThreshold2').value = t2.threshold;
+            }
+
+            saveAdminConfig() {
+                const cfg = store.getConfig();
+                
+                cfg.crops.riz.price = parseFloat(document.getElementById('admPriceRiz').value) || cfg.crops.riz.price;
+                cfg.crops.cacao.price = parseFloat(document.getElementById('admPriceCacao').value) || cfg.crops.cacao.price;
+                cfg.crops.maraicher.price = parseFloat(document.getElementById('admPriceMaraicher').value) || cfg.crops.maraicher.price;
+                cfg.crops.hevea.price = parseFloat(document.getElementById('admPriceHevea').value) || cfg.crops.hevea.price;
+
+                cfg.crops.riz.ratio = parseFloat(document.getElementById('admRatioRiz').value) || cfg.crops.riz.ratio;
+                cfg.crops.cacao.ratio = parseFloat(document.getElementById('admRatioCacao').value) || cfg.crops.cacao.ratio;
+                cfg.crops.maraicher.ratio = parseFloat(document.getElementById('admRatioMaraicher').value) || cfg.crops.maraicher.ratio;
+                cfg.crops.hevea.ratio = parseFloat(document.getElementById('admRatioHevea').value) || cfg.crops.hevea.ratio;
+
+                const t1Val = parseFloat(document.getElementById('admThreshold1').value) || 500000;
+                const t2Val = parseFloat(document.getElementById('admThreshold2').value) || 1000000;
+
+                cfg.discounts = [
+                    { threshold: t2Val, rate: 10 },
+                    { threshold: t1Val, rate: 5 }
+                ];
+
+                store.updateConfig(cfg);
+                this.renderCropOptions();
+                this.updateCalculations();
+                this.adminModal.classList.remove('active');
+            }
+        }
+
+        // Initialize application lifecycle on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            window.appUI = new UIController();
+        });
+    </script>
+</body>
+</html>
