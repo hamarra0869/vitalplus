@@ -52,7 +52,7 @@
             width: 100%;
             max-width: 440px;
             height: 100%;
-            max-height: 750px;
+            max-height: 780px;
             background: var(--surface);
             display: flex;
             flex-direction: column;
@@ -65,7 +65,7 @@
             .app-container {
                 border-radius: var(--radius);
                 border: 1px solid var(--border);
-                height: 92vh;
+                height: 95vh;
             }
         }
 
@@ -142,10 +142,10 @@
 
         input, select {
             width: 100%;
-            padding: 6px 8px;
+            padding: 5px 8px;
             border: 1px solid var(--border);
             border-radius: 5px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             background: #fafafa;
             color: var(--text-main);
             outline: none;
@@ -224,6 +224,8 @@
             border: 1px solid #ffe0b2;
             flex-direction: column;
             gap: 4px;
+            overflow-y: auto;
+            max-height: 100%;
         }
 
         .admin-panel h3 {
@@ -246,7 +248,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 6px;
+            padding: 8px;
             font-weight: 600;
             font-size: 0.75rem;
             cursor: pointer;
@@ -269,7 +271,7 @@
         <!-- MAIN VIEW (Zéro Scroll) -->
         <main>
             <!-- Client Info Card -->
-            <div class="card">
+            <div class="card" id="clientCard">
                 <div class="card-title">1. Coordonnées Exploitation</div>
                 <div class="form-grid">
                     <div class="form-group">
@@ -284,7 +286,7 @@
             </div>
 
             <!-- Agronomic Parameters Card -->
-            <div class="card">
+            <div class="card" id="agroCard">
                 <div class="card-title">2. Paramètres Agraires</div>
                 <div class="form-grid">
                     <div class="form-group">
@@ -299,7 +301,7 @@
             </div>
 
             <!-- Financial Calculation & Receipt View -->
-            <div class="summary-box">
+            <div class="summary-box" id="summaryBox">
                 <div class="summary-row">
                     <span id="labelInputName">Intrant : -</span>
                     <span id="valDosage">-</span>
@@ -318,41 +320,71 @@
                 </div>
             </div>
 
-            <!-- ADMIN PANEL (Sécurisé par URL) -->
+            <!-- ADMIN PANEL (Sécurisé par URL exacte avec les 3 blocs demandés) -->
             <div class="card admin-panel" id="uiAdminPanel">
-                <h3>Admin Externe (Sécurisé)</h3>
-                <div class="admin-section-title">Tarifs (FCFA) & Ratios (/Ha)</div>
+                <h3>Panneau Administration</h3>
+                
+                <div class="admin-section-title">Tarifs Unitaires Intrants (FCFA)</div>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Riz (Prix | Ratio)</label>
-                        <div style="display:flex; gap:4px;">
-                            <input type="number" id="admPriceRiz" placeholder="Prix">
-                            <input type="number" id="admRatioRiz" placeholder="Ratio">
-                        </div>
+                        <label>Riz (Sac)</label>
+                        <input type="number" id="admPriceRiz">
                     </div>
                     <div class="form-group">
-                        <label>Cacao (Prix | Ratio)</label>
-                        <div style="display:flex; gap:4px;">
-                            <input type="number" id="admPriceCacao" placeholder="Prix">
-                            <input type="number" id="admRatioCacao" placeholder="Ratio">
-                        </div>
+                        <label>Cacao (Sachet)</label>
+                        <input type="number" id="admPriceCacao">
                     </div>
                     <div class="form-group">
-                        <label>Maraîcher (Prix | Ratio)</label>
-                        <div style="display:flex; gap:4px;">
-                            <input type="number" id="admPriceMaraicher" placeholder="Prix">
-                            <input type="number" id="admRatioMaraicher" placeholder="Ratio">
-                        </div>
+                        <label>Maraîcher (Bidon)</label>
+                        <input type="number" id="admPriceMaraicher">
                     </div>
                     <div class="form-group">
-                        <label>Hévéa (Prix | Ratio)</label>
-                        <div style="display:flex; gap:4px;">
-                            <input type="number" id="admPriceHevea" placeholder="Prix">
-                            <input type="number" id="admRatioHevea" placeholder="Ratio">
-                        </div>
+                        <label>Hévéa (Bidon)</label>
+                        <input type="number" id="admPriceHevea">
                     </div>
                 </div>
-                <button class="btn-save" id="btnSaveConfig">Enregistrer</button>
+
+                <div class="admin-section-title">Seuils et Taux de Remise Globaux</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Seuil 1 (FCFA)</label>
+                        <input type="number" id="admThreshold1">
+                    </div>
+                    <div class="form-group">
+                        <label>Remise 1 (%)</label>
+                        <input type="number" id="admDiscount1">
+                    </div>
+                    <div class="form-group">
+                        <label>Seuil 2 (FCFA)</label>
+                        <input type="number" id="admThreshold2">
+                    </div>
+                    <div class="form-group">
+                        <label>Remise 2 (%)</label>
+                        <input type="number" id="admDiscount2">
+                    </div>
+                </div>
+
+                <div class="admin-section-title">Ratios par Type de Culture (par Ha)</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Riz (sacs/Ha)</label>
+                        <input type="number" id="admRatioRiz">
+                    </div>
+                    <div class="form-group">
+                        <label>Cacao (sachets/Ha)</label>
+                        <input type="number" id="admRatioCacao">
+                    </div>
+                    <div class="form-group">
+                        <label>Maraîcher (bidons/Ha)</label>
+                        <input type="number" id="admRatioMaraicher">
+                    </div>
+                    <div class="form-group">
+                        <label>Hévéa (bidons/Ha)</label>
+                        <input type="number" id="admRatioHevea">
+                    </div>
+                </div>
+
+                <button class="btn-save" id="btnSaveConfig">Sauvegarder les Paramètres</button>
             </div>
         </main>
 
@@ -373,7 +405,7 @@
     <script>
         'use strict';
 
-        const STORAGE_KEY = 'VITAL_PLUS_EXPRESS_CONFIG_V5';
+        const STORAGE_KEY = 'VITAL_PLUS_EXPRESS_CONFIG_V6';
         const ADMIN_SECRET_KEY = 'CUECDA2026';
 
         const DEFAULT_CONFIG = {
@@ -509,6 +541,9 @@ STATUT : Commande générée via Vital Plus Express`;
                 
                 this.btnWhatsApp = document.getElementById('btnWhatsApp');
                 this.uiAdminPanel = document.getElementById('uiAdminPanel');
+                this.clientCard = document.getElementById('clientCard');
+                this.agroCard = document.getElementById('agroCard');
+                this.summaryBox = document.getElementById('summaryBox');
                 this.btnSaveConfig = document.getElementById('btnSaveConfig');
             }
 
@@ -519,6 +554,9 @@ STATUT : Commande générée via Vital Plus Express`;
 
                 if (mode === 'admin' && key === ADMIN_SECRET_KEY) {
                     this.uiAdminPanel.style.display = 'flex';
+                    this.clientCard.style.display = 'none';
+                    this.agroCard.style.display = 'none';
+                    this.summaryBox.style.display = 'none';
                     this.populateAdminFields();
                 } else {
                     this.uiAdminPanel.style.display = 'none';
@@ -575,38 +613,58 @@ STATUT : Commande générée via Vital Plus Express`;
 
             populateAdminFields() {
                 const cfg = store.getConfig();
+                
+                // Tarifs
                 document.getElementById('admPriceRiz').value = cfg.crops.riz.price;
-                document.getElementById('admRatioRiz').value = cfg.crops.riz.ratio;
-
                 document.getElementById('admPriceCacao').value = cfg.crops.cacao.price;
-                document.getElementById('admRatioCacao').value = cfg.crops.cacao.ratio;
-
                 document.getElementById('admPriceMaraicher').value = cfg.crops.maraicher.price;
-                document.getElementById('admRatioMaraicher').value = cfg.crops.maraicher.ratio;
-
                 document.getElementById('admPriceHevea').value = cfg.crops.hevea.price;
+
+                // Seuils et Remises
+                const t1 = cfg.discounts.find(d => d.rate === 5) || { threshold: 500000 };
+                const t2 = cfg.discounts.find(d => d.rate === 10) || { threshold: 1000000 };
+                document.getElementById('admThreshold1').value = t1.threshold;
+                document.getElementById('admDiscount1').value = 5;
+                document.getElementById('admThreshold2').value = t2.threshold;
+                document.getElementById('admDiscount2').value = 10;
+
+                // Ratios
+                document.getElementById('admRatioRiz').value = cfg.crops.riz.ratio;
+                document.getElementById('admRatioCacao').value = cfg.crops.cacao.ratio;
+                document.getElementById('admRatioMaraicher').value = cfg.crops.maraicher.ratio;
                 document.getElementById('admRatioHevea').value = cfg.crops.hevea.ratio;
             }
 
             saveAdminConfig() {
                 const cfg = store.getConfig();
                 
+                // Sauvegarde des prix
                 cfg.crops.riz.price = parseFloat(document.getElementById('admPriceRiz').value) || cfg.crops.riz.price;
-                cfg.crops.riz.ratio = parseFloat(document.getElementById('admRatioRiz').value) || cfg.crops.riz.ratio;
-
                 cfg.crops.cacao.price = parseFloat(document.getElementById('admPriceCacao').value) || cfg.crops.cacao.price;
-                cfg.crops.cacao.ratio = parseFloat(document.getElementById('admRatioCacao').value) || cfg.crops.cacao.ratio;
-
                 cfg.crops.maraicher.price = parseFloat(document.getElementById('admPriceMaraicher').value) || cfg.crops.maraicher.price;
-                cfg.crops.maraicher.ratio = parseFloat(document.getElementById('admRatioMaraicher').value) || cfg.crops.maraicher.ratio;
-
                 cfg.crops.hevea.price = parseFloat(document.getElementById('admPriceHevea').value) || cfg.crops.hevea.price;
+
+                // Sauvegarde des seuils et remises
+                const t1Val = parseFloat(document.getElementById('admThreshold1').value) || 500000;
+                const r1Val = parseFloat(document.getElementById('admDiscount1').value) || 5;
+                const t2Val = parseFloat(document.getElementById('admThreshold2').value) || 1000000;
+                const r2Val = parseFloat(document.getElementById('admDiscount2').value) || 10;
+
+                cfg.discounts = [
+                    { threshold: t2Val, rate: r2Val },
+                    { threshold: t1Val, rate: r1Val }
+                ];
+
+                // Sauvegarde des ratios
+                cfg.crops.riz.ratio = parseFloat(document.getElementById('admRatioRiz').value) || cfg.crops.riz.ratio;
+                cfg.crops.cacao.ratio = parseFloat(document.getElementById('admRatioCacao').value) || cfg.crops.cacao.ratio;
+                cfg.crops.maraicher.ratio = parseFloat(document.getElementById('admRatioMaraicher').value) || cfg.crops.maraicher.ratio;
                 cfg.crops.hevea.ratio = parseFloat(document.getElementById('admRatioHevea').value) || cfg.crops.hevea.ratio;
 
                 store.updateConfig(cfg);
                 this.renderCropOptions();
                 this.updateCalculations();
-                alert('Paramétrie mise à jour avec succès.');
+                alert('Paramètres d\'administration sauvegardés avec succès.');
             }
         }
 
