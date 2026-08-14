@@ -200,21 +200,65 @@
         </div>
     </section>
 
-    <!-- APPEL À L'ACTION FINAL -->
+    <!-- APPEL À L'ACTION FINAL AVEC FORMULAIRE HYBRIDE -->
     <section id="diagnostic" class="py-16 px-5 bg-cuecda-primary text-white rounded-t-[50px] text-center">
         <div class="max-w-2xl mx-auto">
             <h2 class="text-3xl font-black mb-6">Prêt à sauver et rentabiliser vos plantations ?</h2>
             <p class="text-sm font-bold opacity-70 mb-10 uppercase tracking-widest">30 secondes pour évaluer l'état de vos cultures.</p>
             
-            <button onclick="window.open('https://wa.me/2250555167477?text=Bonjour%20CUECDA,%20je%20souhaite%20r%C3%A9server%20mon%20diagnostic%20agricole%20gratuit.', '_blank')" class="w-full bg-cuecda-accent text-green-900 font-black py-6 rounded-3xl text-xl shadow-2xl shadow-green-900 hover:scale-105 transition-transform">
-                MON DIAGNOSTIC AGRICOLE GRATUIT <i class="fab fa-whatsapp ml-2"></i>
-            </button>
+            <!-- FORMULAIRE HYBRIDE WHATSAPP -->
+            <form onsubmit="sendToWhatsApp(event)" class="bg-white text-slate-900 p-6 md:p-8 rounded-3xl shadow-xl text-left space-y-5 max-w-md mx-auto mb-10">
+                <div>
+                    <label for="nom" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nom complet *</label>
+                    <input type="text" id="nom" required placeholder="Ex: Koffi Kouassi" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
+                </div>
+                <div>
+                    <label for="localisation" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Localisation (Région / Ville) *</label>
+                    <input type="text" id="localisation" required placeholder="Ex: Soubré" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
+                </div>
+                <div>
+                    <label for="taille" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Taille de la plantation *</label>
+                    <div class="relative">
+                        <input type="number" id="taille" required min="1" placeholder="Ex: 5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Hectares</span>
+                    </div>
+                </div>
+                <div>
+                    <label for="tel" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Numéro de téléphone *</label>
+                    <input type="tel" id="tel" required placeholder="+225 00 00 00 00 00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
+                </div>
+                
+                <button type="submit" class="w-full bg-cuecda-accent text-green-900 font-black py-4 rounded-xl text-lg shadow-lg shadow-amber-200 hover:scale-[1.02] transition-transform mt-2 flex justify-center items-center">
+                    VALIDER MON DIAGNOSTIC <i class="fab fa-whatsapp ml-2 text-xl"></i>
+                </button>
+                <p class="text-[10px] text-center text-slate-400 font-bold mt-3"><i class="fas fa-lock mr-1"></i> Vos données sont sécurisées. Réponse rapide garantie.</p>
+            </form>
             
-            <div class="mt-16 grid grid-cols-2 gap-8 text-[10px] font-black opacity-30 text-white uppercase tracking-tighter">
+            <div class="mt-8 grid grid-cols-2 gap-8 text-[10px] font-black opacity-30 text-white uppercase tracking-tighter">
                 <div>© 2026 CUECDA</div>
                 <div>ABIDJAN, CÔTE D'IVOIRE</div>
             </div>
         </div>
     </section>
+
+    <!-- Script de redirection automatique vers WhatsApp -->
+    <script>
+        function sendToWhatsApp(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+            
+            // Récupération des valeurs du formulaire
+            const nom = document.getElementById('nom').value;
+            const localisation = document.getElementById('localisation').value;
+            const taille = document.getElementById('taille').value;
+            const tel = document.getElementById('tel').value;
+
+            // Formatage du message pour WhatsApp
+            const texte = `Bonjour CUECDA, je souhaite réserver mon diagnostic agricole gratuit pour lutter contre le Swollen Shoot.%0A%0A*Nom :* ${nom}%0A*Localisation :* ${localisation}%0A*Taille de la plantation :* ${taille} hectares%0A*Téléphone :* ${tel}`;
+            
+            // Redirection vers le lien WhatsApp (Remplacer le numéro si nécessaire)
+            const url = `https://wa.me/2250555167477?text=${texte}`;
+            window.open(url, '_blank');
+        }
+    </script>
 </body>
 </html>
