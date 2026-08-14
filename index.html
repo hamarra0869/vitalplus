@@ -12,10 +12,10 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             background-color: #f8fafc; 
             color: #0f172a; 
-            padding-bottom: 100px; /* Espace pour le CTA Sticky */
+            padding-bottom: 100px; /* Espace de sécurité pour la Thumb Zone */
         }
         
-        /* Masquer les flèches du champ number pour un look épuré (Anti-Jargon visuel) */
+        /* Masquer les flèches du champ number pour un visuel propre */
         input[type="number"]::-webkit-inner-spin-button, 
         input[type="number"]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -53,7 +53,7 @@
                     <i class="fas fa-chart-line text-green-600"></i> Calculez votre gain
                 </h2>
                 
-                <!-- TAP 1 : La Surface (Clavier numérique forcé, H: 56px minimum) -->
+                <!-- TAP 1 : La Surface (Clavier numérique, H: 56px) -->
                 <div class="mb-6">
                     <label class="block text-base font-bold text-slate-800 mb-3" for="surface">1. Quelle est votre surface ?</label>
                     <div class="relative">
@@ -63,11 +63,10 @@
                     </div>
                 </div>
 
-                <!-- TAP 2 : La Culture (Cibles tactiles larges 56px, WCAG AAA) -->
+                <!-- TAP 2 : La Culture (Cibles tactiles larges 56px) -->
                 <div>
                     <label class="block text-base font-bold text-slate-800 mb-3">2. Votre culture principale :</label>
                     <div class="grid grid-cols-2 gap-3" id="culture-grid">
-                        <!-- Note: Le premier bouton est actif par défaut -->
                         <button type="button" class="culture-btn h-14 bg-green-700 text-white border-2 border-green-700 font-bold text-base rounded-2xl transition-all" data-value="Cacao/Café">Cacao / Café</button>
                         <button type="button" class="culture-btn h-14 bg-white text-slate-600 border-2 border-slate-300 font-bold text-base rounded-2xl transition-all" data-value="Maraîchère">Maraîchère</button>
                         <button type="button" class="culture-btn h-14 bg-white text-slate-600 border-2 border-slate-300 font-bold text-base rounded-2xl transition-all" data-value="Hévéa">Hévéa</button>
@@ -76,20 +75,29 @@
                 </div>
             </div>
 
-            <!-- E-E-A-T : L'expert au contact humain -->
+            <!-- BLOC E-E-A-T : Réassurance Humaine avec Photo du Dr Doumbia -->
             <div class="flex items-center gap-4 bg-green-50 p-5 rounded-2xl border border-green-100">
-                <div class="w-16 h-16 bg-slate-200 rounded-full shrink-0 flex items-center justify-center text-2xl text-slate-400 font-bold overflow-hidden border-2 border-white shadow-sm">
-                    <i class="fas fa-user-tie"></i>
+                
+                <!-- Avatar avec Badge "Disponible / En ligne" -->
+                <div class="relative shrink-0">
+                    <img src="dr-doumbia.jpg" 
+                         alt="Dr Mamadou Doumbia, Expert en Fertilisation Bio" 
+                         class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
+                         loading="eager">
+                    <!-- Pastille WhatsApp Active (Vert Émeraude) -->
+                    <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
                 </div>
+
+                <!-- Texte d'Autorité & Humanité -->
                 <div>
                     <h3 class="font-black text-base text-slate-900">Dr Mamadou Doumbia</h3>
                     <p class="text-sm text-slate-600 leading-snug">"Je vous accompagne personnellement sur WhatsApp pour garantir vos résultats."</p>
                 </div>
+
             </div>
         </main>
 
         <!-- THUMB ZONE : Sticky CTA (TAP 3) -->
-        <!-- Fixé en bas, toujours accessible au pouce sans défilement -->
         <div class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/95 backdrop-blur-md border-t border-slate-200">
             <div class="max-w-md mx-auto">
                 <button onclick="generateLead()" class="w-full h-16 bg-[#25D366] text-white font-black text-lg rounded-2xl shadow-lg flex items-center justify-center gap-3 hover:bg-[#1ebd5a] active:scale-95 transition-all">
@@ -104,7 +112,7 @@
     <script>
         let selectedCulture = "Cacao/Café";
 
-        // Gestion de la sélection des cultures (Tap 2) - Full Tailwind, 100% Robuste
+        // Gestion de la sélection des cultures (Tap 2) - Full Tailwind
         const buttons = document.querySelectorAll('.culture-btn');
         
         buttons.forEach(btn => {
@@ -127,10 +135,9 @@
         // Génération du Lead WhatsApp (Tap 3)
         function generateLead() {
             const surfaceInput = document.getElementById('surface').value;
-            // Fallback si le champ est vide
             const surface = surfaceInput ? surfaceInput : "quelques"; 
             
-            // Formatage du message sans jargon
+            // Formatage du message WhatsApp
             const msg = `Bonjour Dr Doumbia. Je viens du site CUECDA. Je souhaite obtenir mon plan de fertilisation gratuit avec Vital Plus pour ma plantation de ${selectedCulture} d'environ ${surface} hectares. Comment procéder ?`;
             
             // Numéro WhatsApp cible
