@@ -1,263 +1,144 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CUECDA | Performance & Rentabilité Agricole</title>
-    <!-- PWA Meta -->
-    <meta name="theme-color" content="#15803d">
-    <link rel="manifest" href="data:application/manifest+json,{'name':'CUECDA ROI','short_name':'CUECDA','start_url':'.','display':'standalone','background_color':'#ffffff','theme_color':'#15803d'}">
+    <title>CUECDA | Doublez vos récoltes avec Vital Plus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --cuecda-primary: #15803d; --cuecda-accent: #f59e0b; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
-        .bg-cuecda-primary { background-color: var(--cuecda-primary); }
-        .text-cuecda-primary { color: var(--cuecda-primary); }
-        .bg-cuecda-accent { background-color: var(--cuecda-accent); }
-        .border-cuecda-accent { border-color: var(--cuecda-accent); }
+        /* Typographie système fluide et lisible */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f8fafc; 
+            color: #0f172a; 
+            padding-bottom: 100px; /* Espace pour le CTA Sticky */
+        }
+        
+        /* Masquer les flèches du champ number pour un look épuré (Anti-Jargon visuel) */
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
     </style>
 </head>
-<body class="text-slate-900 overflow-x-hidden">
+<body class="antialiased selection:bg-green-200 selection:text-green-900">
 
-    <!-- Navigation Minimaliste -->
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
-        <div class="max-w-4xl mx-auto px-5 py-3 flex justify-between items-center">
-            <span class="font-black text-2xl tracking-tighter text-cuecda-primary">CUECDA</span>
-            <div class="flex items-center gap-2">
-                <a href="tel:+2250555167477" class="bg-cuecda-primary text-white px-5 py-2 rounded-full text-xs font-bold shadow-lg shadow-green-200">
-                    <i class="fas fa-phone-alt mr-2"></i> URGENCE PLANTATION
-                </a>
+    <div class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl">
+        
+        <!-- HEADER : Autorité & Réassurance -->
+        <header class="px-6 py-5 flex items-center justify-between border-b border-slate-100">
+            <div class="flex items-center gap-3">
+                <div class="bg-green-700 text-white px-3 py-1.5 rounded-lg font-black text-sm tracking-wide">CUECDA</div>
             </div>
-        </div>
-    </nav>
+            <span class="text-sm font-bold text-green-700 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">
+                100% Bio & Ivoirien
+            </span>
+        </header>
 
-    <!-- HERO SECTION : L'Accroche Rentabilité -->
-    <section class="pt-12 pb-16 px-5 text-center bg-gradient-to-b from-green-50/50 to-white">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-3xl md:text-5xl font-black leading-tight mb-6 text-slate-900">
-                La maladie n'est pas une fatalité, c'est votre <span class="text-cuecda-primary underline decoration-amber-400">meilleur levier de relance</span>.
+        <!-- HERO : La Promesse (Outcome-Led) -->
+        <main class="px-6 pt-8 pb-12">
+            <h1 class="text-3xl font-black leading-tight text-slate-900 mb-4">
+                Redonnez vie à votre terre.<br> 
+                <span class="text-green-700">Doublez vos récoltes.</span>
             </h1>
-            <p class="text-lg text-slate-600 font-medium mb-10 leading-relaxed">
-                L'expertise agronomique du Professeur Doumbia pour transformer vos plantations en actifs à haut rendement. <br class="hidden md:block">
-                <strong>Stoppez le Swollen Shoot, maximisez vos tonnages avec Vital Plus.</strong>
+            <p class="text-base text-slate-600 mb-8 leading-relaxed font-medium">
+                Découvrez combien l'engrais biologique <strong>Vital Plus</strong> (issu des recherches de l'Université Nangui Abrogoua) peut vous rapporter cette saison.
             </p>
-            <a href="#diagnostic" class="inline-block bg-cuecda-accent text-green-900 font-black px-8 py-5 rounded-2xl text-lg shadow-xl hover:scale-105 transition-transform">
-                RÉSERVEZ VOTRE DIAGNOSTIC GRATUIT <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
-    </section>
 
-    <!-- LE COÛT CACHÉ DE L'INACTION (Agitation) -->
-    <section class="py-16 bg-slate-100 text-slate-900 px-5">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black mb-10 text-center uppercase tracking-wider text-cuecda-primary">Le Coût Caché de l'Inaction</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
-                    <p class="text-3xl font-black text-red-500 mb-2">-40%</p>
-                    <p class="text-sm font-bold opacity-80">De perte de rendement direct liée à la progression fulgurante du Swollen Shoot.</p>
-                </div>
-                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
-                    <p class="text-3xl font-black text-red-500 mb-2">15%</p>
-                    <p class="text-sm font-bold opacity-80">De fèves rejetées en coopérative dues à la dégradation de la qualité des cabosses.</p>
-                </div>
-                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
-                    <p class="text-3xl font-black text-red-500 mb-2">IMMÉDIAT</p>
-                    <p class="text-sm font-bold opacity-80">Risque d'arrachage préventif imposé et perte totale du capital de la parcelle.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PREUVE PAR L'EXPERTISE (Autorité) -->
-    <section class="py-16 px-5 bg-white">
-        <div class="max-w-4xl mx-auto text-center">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8 text-center">Les bastions agricoles qui nous font confiance</p>
-            <div class="grid grid-cols-3 md:grid-cols-6 gap-6 items-center opacity-40 grayscale contrast-125 mb-16">
-                <span class="font-black text-lg italic">SOUBRÉ</span>
-                <span class="font-black text-lg italic">SAN-PEDRO</span>
-                <span class="font-black text-lg italic">GAGNOA</span>
-                <span class="font-black text-lg italic">DALOA</span>
-                <span class="font-black text-lg italic">BOUAFLÉ</span>
-                <span class="font-black text-lg italic">MÉAGUI</span>
-            </div>
-            <div class="bg-cuecda-primary/5 p-8 rounded-[40px] border border-cuecda-primary/10">
-                <p class="text-cuecda-primary font-black text-xl mb-2 italic">L'Innovation VITAL PLUS</p>
-                <p class="text-slate-600 font-bold text-sm">
-                    Solution <strong>éprouvée</strong> : Protégez votre investissement foncier grâce à une approche agro-scientifique ciblée.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- RENTABILITÉ PURE (Solution) -->
-    <section class="py-16 px-5 bg-slate-50">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-black text-center mb-12">Nos Piliers de Rentabilité</h2>
-            <div class="space-y-4">
-                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
-                        <i class="fas fa-seedling text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-black text-lg">Traitement Préventif</h3>
-                        <p class="text-xs text-slate-500 font-bold">Un bouclier phytosanitaire intraitable face aux maladies endémiques du cacao.</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
-                        <i class="fas fa-leaf text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-black text-lg">Régénération des Sols</h3>
-                        <p class="text-xs text-slate-500 font-bold">Redonnez de la vigueur à vos plants fatigués et pérennisez vos prochaines campagnes.</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
-                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
-                        <i class="fas fa-chart-bar text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-black text-lg">Rendement Maximisé</h3>
-                        <p class="text-xs text-slate-500 font-bold">Stabilisez votre volume de production et maximisez votre tonnage à l'hectare.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- LA GRILLE DE RENTABILITÉ (Avant / Après) -->
-    <section class="py-16 px-4 md:px-5 bg-white border-y border-slate-100">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-black text-center mb-8 md:mb-12 text-slate-900">Le Contraste de Rentabilité</h2>
-            
-            <div class="bg-slate-50 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm border border-slate-200">
-                <!-- Header -->
-                <div class="grid grid-cols-2 text-center border-b border-slate-200">
-                    <div class="p-3 md:p-4 bg-slate-200 font-bold text-slate-600 uppercase tracking-wider text-[10px] md:text-xs">Gestion Classique</div>
-                    <div class="p-3 md:p-4 bg-cuecda-primary text-white font-black uppercase tracking-wider text-[10px] md:text-xs shadow-inner">Approche CUECDA</div>
-                </div>
+            <!-- SIMULATEUR : Le micro-engagement -->
+            <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                <h2 class="text-xl font-black mb-6 text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-chart-line text-green-600"></i> Calculez votre gain
+                </h2>
                 
-                <!-- Ligne 1 -->
-                <div class="grid grid-cols-2 text-center border-b border-slate-200">
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
-                        <p>La maladie est une <br class="md:hidden"><span class="text-red-500 font-bold">fatalité agricole</span></p>
-                    </div>
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
-                        <p>Un <span class="text-cuecda-primary">levier de rendement</span> maîtrisé</p>
-                    </div>
-                </div>
-
-                <!-- Ligne 2 -->
-                <div class="grid grid-cols-2 text-center border-b border-slate-200">
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
-                        <p>Réaction post-infection <br class="md:hidden"><span class="text-[10px] md:text-xs opacity-80">(arrachage massif)</span></p>
-                    </div>
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
-                        <p>Prévention et continuité des récoltes</p>
-                    </div>
-                </div>
-
-                <!-- Ligne 3 -->
-                <div class="grid grid-cols-2 text-center border-b border-slate-200">
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
-                        <p>Baisse de revenus et <br class="md:hidden"><span class="text-red-500 font-bold">perte de terres</span></p>
-                    </div>
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
-                        <p>Sérénité d'exploitation totale</p>
-                    </div>
-                </div>
-                
-                <!-- Ligne 4 -->
-                <div class="grid grid-cols-2 text-center">
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
-                        <p>Intrants chimiques classiques</p>
-                    </div>
-                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
-                        <p>Solution ciblée via <br class="md:hidden"><span class="text-cuecda-primary underline decoration-cuecda-accent">Vital Plus</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SOCIAL PROOF (Témoignage) -->
-    <section class="py-20 px-5 bg-white overflow-hidden relative">
-        <div class="max-w-2xl mx-auto text-center relative z-10">
-            <i class="fas fa-quote-left text-cuecda-accent text-4xl mb-6 opacity-50"></i>
-            <p class="text-xl font-black italic text-slate-800 mb-8 leading-relaxed">
-                "Je voyais le Swollen Shoot comme une condamnation de mes terres. Avec l'approche de CUECDA et le traitement Vital Plus, nos rendements ont bondi et l'état sanitaire de la plantation s'est complètement transformé. C'est un investissement vital."
-            </p>
-            <div class="flex items-center justify-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border-2 border-cuecda-accent">
-                    <i class="fas fa-user-tie text-slate-400"></i>
-                </div>
-                <div class="text-left">
-                    <p class="font-black text-sm uppercase">P.C.A de Coopérative</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Région du Bas-Sassandra</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- APPEL À L'ACTION FINAL AVEC FORMULAIRE HYBRIDE -->
-    <section id="diagnostic" class="py-16 px-5 bg-cuecda-primary text-white rounded-t-[50px] text-center">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-3xl font-black mb-6">Prêt à sauver et rentabiliser vos plantations ?</h2>
-            <p class="text-sm font-bold opacity-70 mb-10 uppercase tracking-widest">30 secondes pour évaluer l'état de vos cultures.</p>
-            
-            <!-- FORMULAIRE HYBRIDE WHATSAPP -->
-            <form onsubmit="sendToWhatsApp(event)" class="bg-white text-slate-900 p-6 md:p-8 rounded-3xl shadow-xl text-left space-y-5 max-w-md mx-auto mb-10">
-                <div>
-                    <label for="nom" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nom complet *</label>
-                    <input type="text" id="nom" required placeholder="Ex: Koffi Kouassi" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
-                </div>
-                <div>
-                    <label for="localisation" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Localisation (Région / Ville) *</label>
-                    <input type="text" id="localisation" required placeholder="Ex: Soubré" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
-                </div>
-                <div>
-                    <label for="taille" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Taille de la plantation *</label>
+                <!-- TAP 1 : La Surface (Clavier numérique forcé, H: 56px minimum) -->
+                <div class="mb-6">
+                    <label class="block text-base font-bold text-slate-800 mb-3" for="surface">1. Quelle est votre surface ?</label>
                     <div class="relative">
-                        <input type="number" id="taille" required min="1" placeholder="Ex: 5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
-                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Hectares</span>
+                        <input type="number" id="surface" inputmode="numeric" pattern="[0-9]*" placeholder="Exemple : 5" 
+                               class="w-full bg-white border-2 border-slate-300 rounded-2xl h-14 px-4 text-lg font-bold text-slate-900 focus:border-green-700 focus:ring-0 outline-none transition-colors">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base pointer-events-none">Hectares</span>
                     </div>
                 </div>
+
+                <!-- TAP 2 : La Culture (Cibles tactiles larges 56px, WCAG AAA) -->
                 <div>
-                    <label for="tel" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Numéro de téléphone *</label>
-                    <input type="tel" id="tel" required placeholder="+225 00 00 00 00 00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cuecda-primary focus:ring-2 focus:ring-green-100 transition-all">
+                    <label class="block text-base font-bold text-slate-800 mb-3">2. Votre culture principale :</label>
+                    <div class="grid grid-cols-2 gap-3" id="culture-grid">
+                        <!-- Note: Le premier bouton est actif par défaut -->
+                        <button type="button" class="culture-btn h-14 bg-green-700 text-white border-2 border-green-700 font-bold text-base rounded-2xl transition-all" data-value="Cacao/Café">Cacao / Café</button>
+                        <button type="button" class="culture-btn h-14 bg-white text-slate-600 border-2 border-slate-300 font-bold text-base rounded-2xl transition-all" data-value="Maraîchère">Maraîchère</button>
+                        <button type="button" class="culture-btn h-14 bg-white text-slate-600 border-2 border-slate-300 font-bold text-base rounded-2xl transition-all" data-value="Hévéa">Hévéa</button>
+                        <button type="button" class="culture-btn h-14 bg-white text-slate-600 border-2 border-slate-300 font-bold text-base rounded-2xl transition-all" data-value="Riz">Riz</button>
+                    </div>
                 </div>
-                
-                <button type="submit" class="w-full bg-cuecda-accent text-green-900 font-black py-4 rounded-xl text-lg shadow-lg shadow-amber-200 hover:scale-[1.02] transition-transform mt-2 flex justify-center items-center">
-                    VALIDER MON DIAGNOSTIC <i class="fab fa-whatsapp ml-2 text-xl"></i>
+            </div>
+
+            <!-- E-E-A-T : L'expert au contact humain -->
+            <div class="flex items-center gap-4 bg-green-50 p-5 rounded-2xl border border-green-100">
+                <div class="w-16 h-16 bg-slate-200 rounded-full shrink-0 flex items-center justify-center text-2xl text-slate-400 font-bold overflow-hidden border-2 border-white shadow-sm">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-base text-slate-900">Dr Mamadou Doumbia</h3>
+                    <p class="text-sm text-slate-600 leading-snug">"Je vous accompagne personnellement sur WhatsApp pour garantir vos résultats."</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- THUMB ZONE : Sticky CTA (TAP 3) -->
+        <!-- Fixé en bas, toujours accessible au pouce sans défilement -->
+        <div class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/95 backdrop-blur-md border-t border-slate-200">
+            <div class="max-w-md mx-auto">
+                <button onclick="generateLead()" class="w-full h-16 bg-[#25D366] text-white font-black text-lg rounded-2xl shadow-lg flex items-center justify-center gap-3 hover:bg-[#1ebd5a] active:scale-95 transition-all">
+                    <i class="fab fa-whatsapp text-2xl"></i> 
+                    OBTENIR MON PLAN GRATUIT
                 </button>
-                <p class="text-[10px] text-center text-slate-400 font-bold mt-3"><i class="fas fa-lock mr-1"></i> Vos données sont sécurisées. Réponse rapide garantie.</p>
-            </form>
-            
-            <div class="mt-8 grid grid-cols-2 gap-8 text-[10px] font-black opacity-30 text-white uppercase tracking-tighter">
-                <div>© 2026 CUECDA</div>
-                <div>ABIDJAN, CÔTE D'IVOIRE</div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Script de redirection automatique vers WhatsApp -->
+    <!-- Logique Métier (Les 3 Taps) -->
     <script>
-        function sendToWhatsApp(event) {
-            event.preventDefault(); // Empêche le rechargement de la page
-            
-            // Récupération des valeurs du formulaire
-            const nom = document.getElementById('nom').value;
-            const localisation = document.getElementById('localisation').value;
-            const taille = document.getElementById('taille').value;
-            const tel = document.getElementById('tel').value;
+        let selectedCulture = "Cacao/Café";
 
-            // Formatage du message pour WhatsApp
-            const texte = `Bonjour CUECDA, je souhaite réserver mon diagnostic agricole gratuit pour lutter contre le Swollen Shoot.%0A%0A*Nom :* ${nom}%0A*Localisation :* ${localisation}%0A*Taille de la plantation :* ${taille} hectares%0A*Téléphone :* ${tel}`;
+        // Gestion de la sélection des cultures (Tap 2) - Full Tailwind, 100% Robuste
+        const buttons = document.querySelectorAll('.culture-btn');
+        
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 1. Reset de tous les boutons à l'état inactif (Blanc)
+                buttons.forEach(b => {
+                    b.classList.remove('bg-green-700', 'text-white', 'border-green-700');
+                    b.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+                });
+                
+                // 2. Application de l'état actif au bouton cliqué (Vert)
+                btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                btn.classList.add('bg-green-700', 'text-white', 'border-green-700');
+                
+                // 3. Enregistrement de la valeur
+                selectedCulture = btn.getAttribute('data-value');
+            });
+        });
+
+        // Génération du Lead WhatsApp (Tap 3)
+        function generateLead() {
+            const surfaceInput = document.getElementById('surface').value;
+            // Fallback si le champ est vide
+            const surface = surfaceInput ? surfaceInput : "quelques"; 
             
-            // Redirection vers le lien WhatsApp (Remplacer le numéro si nécessaire)
-            const url = `https://wa.me/2250555167477?text=${texte}`;
-            window.open(url, '_blank');
+            // Formatage du message sans jargon
+            const msg = `Bonjour Dr Doumbia. Je viens du site CUECDA. Je souhaite obtenir mon plan de fertilisation gratuit avec Vital Plus pour ma plantation de ${selectedCulture} d'environ ${surface} hectares. Comment procéder ?`;
+            
+            // Numéro WhatsApp cible
+            const phone = "2250554540774";
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            
+            // Lancement du tunnel
+            window.open(whatsappUrl, '_blank');
         }
     </script>
 </body>
