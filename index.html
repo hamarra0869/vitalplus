@@ -1,676 +1,220 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vital Plus Express | C.U.E.C.D.A.</title>
+    <title>CUECDA | Performance & Rentabilité Agricole</title>
+    <!-- PWA Meta -->
+    <meta name="theme-color" content="#15803d">
+    <link rel="manifest" href="data:application/manifest+json,{'name':'CUECDA ROI','short_name':'CUECDA','start_url':'.','display':'standalone','background_color':'#ffffff','theme_color':'#15803d'}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ==========================================
-           1. TOKENS & DESIGN SYSTEM (CSS Variables)
-           ========================================== */
-        :root {
-            --primary: #1b5e20;
-            --primary-dark: #0d3811;
-            --primary-light: #4c8c4a;
-            --accent: #ff8f00;
-            --bg-main: #f4f6f4;
-            --surface: #ffffff;
-            --text-main: #1a1c1a;
-            --text-muted: #5e665e;
-            --border: #d0d7d0;
-            --radius: 10px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ==========================================
-           2. RESET & ZÉRO SCROLL VIEWPORT ARCHITECTURE
-           ========================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: fixed;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 440px;
-            height: 100%;
-            max-height: 780px;
-            background: var(--surface);
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        @media (min-width: 441px) {
-            .app-container {
-                border-radius: var(--radius);
-                border: 1px solid var(--border);
-                height: 95vh;
-            }
-        }
-
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .brand h1 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-
-        .brand span {
-            font-size: 0.65rem;
-            opacity: 0.85;
-            display: block;
-        }
-
-        main {
-            flex: 1;
-            padding: 8px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            overflow: hidden;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .card-title {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .form-group.full {
-            grid-column: span 2;
-        }
-
-        label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 5px 8px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            font-size: 0.75rem;
-            background: #fafafa;
-            color: var(--text-main);
-            outline: none;
-            transition: var(--transition);
-        }
-
-        input:focus, select:focus {
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.1);
-        }
-
-        .summary-box {
-            background: #f1f8f1;
-            border: 1px dashed var(--primary-light);
-            border-radius: 6px;
-            padding: 6px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-        }
-
-        .summary-row.total {
-            font-weight: 700;
-            color: var(--primary-dark);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            padding-top: 3px;
-            margin-top: 2px;
-        }
-
-        .discount-tag {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        footer {
-            padding: 8px 12px;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .btn-whatsapp {
-            width: 100%;
-            background: #25d366;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);
-            transition: var(--transition);
-        }
-
-        .btn-whatsapp:active {
-            transform: scale(0.98);
-            background: #1ebe57;
-        }
-
-        .admin-panel {
-            display: none;
-            background: #fff3e0;
-            border: 1px solid #ffe0b2;
-            flex-direction: column;
-            gap: 4px;
-            overflow-y: auto;
-            max-height: 100%;
-        }
-
-        .admin-panel h3 {
-            font-size: 0.75rem;
-            color: #e65100;
-            text-transform: uppercase;
-        }
-
-        .admin-section-title {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: #d84315;
-            margin: 2px 0;
-            border-bottom: 1px solid #ffe0b2;
-            padding-bottom: 1px;
-        }
-
-        .btn-save {
-            background: #e65100;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 4px;
-        }
+        :root { --cuecda-primary: #15803d; --cuecda-accent: #f59e0b; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
+        .bg-cuecda-primary { background-color: var(--cuecda-primary); }
+        .text-cuecda-primary { color: var(--cuecda-primary); }
+        .bg-cuecda-accent { background-color: var(--cuecda-accent); }
+        .border-cuecda-accent { border-color: var(--cuecda-accent); }
     </style>
 </head>
-<body>
+<body class="text-slate-900 overflow-x-hidden">
 
-    <div class="app-container">
-        <!-- HEADER -->
-        <header>
-            <div class="brand">
-                <h1>Vital Plus Express</h1>
-                <span>C.U.E.C.D.A. • Agrotech Decision Engine</span>
+    <!-- Navigation Minimaliste -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-4xl mx-auto px-5 py-3 flex justify-between items-center">
+            <span class="font-black text-2xl tracking-tighter text-cuecda-primary">CUECDA</span>
+            <div class="flex items-center gap-2">
+                <a href="tel:+2250555167477" class="bg-cuecda-primary text-white px-5 py-2 rounded-full text-xs font-bold shadow-lg shadow-green-200">
+                    <i class="fas fa-phone-alt mr-2"></i> URGENCE PLANTATION
+                </a>
             </div>
-        </header>
+        </div>
+    </nav>
 
-        <!-- MAIN VIEW (Zéro Scroll) -->
-        <main>
-            <!-- Client Info Card -->
-            <div class="card" id="clientCard">
-                <div class="card-title">1. Coordonnées Exploitation</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="clientName">Nom complet</label>
-                        <input type="text" id="clientName" placeholder="Ex: Kouassi Jean">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientZone">Localisation / Zone</label>
-                        <input type="text" id="clientZone" placeholder="Ex: Daloa">
-                    </div>
-                </div>
-            </div>
+    <!-- HERO SECTION : L'Accroche Rentabilité -->
+    <section class="pt-12 pb-16 px-5 text-center bg-gradient-to-b from-green-50/50 to-white">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl md:text-5xl font-black leading-tight mb-6 text-slate-900">
+                La maladie n'est pas une fatalité, c'est votre <span class="text-cuecda-primary underline decoration-amber-400">meilleur levier de relance</span>.
+            </h1>
+            <p class="text-lg text-slate-600 font-medium mb-10 leading-relaxed">
+                L'expertise agronomique du Professeur Doumbia pour transformer vos plantations en actifs à haut rendement. <br class="hidden md:block">
+                <strong>Stoppez le Swollen Shoot, maximisez vos tonnages avec Vital Plus.</strong>
+            </p>
+            <a href="#diagnostic" class="inline-block bg-cuecda-accent text-green-900 font-black px-8 py-5 rounded-2xl text-lg shadow-xl hover:scale-105 transition-transform">
+                RÉSERVEZ VOTRE DIAGNOSTIC GRATUIT <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
 
-            <!-- Agronomic Parameters Card -->
-            <div class="card" id="agroCard">
-                <div class="card-title">2. Paramètres Agraires</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="cropSelect">Culture cible</label>
-                        <select id="cropSelect"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="surfaceInput">Surface (Ha)</label>
-                        <input type="number" id="surfaceInput" min="0.1" step="0.1" value="1">
-                    </div>
+    <!-- LE COÛT CACHÉ DE L'INACTION (Agitation) -->
+    <section class="py-16 bg-slate-100 text-slate-900 px-5">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black mb-10 text-center uppercase tracking-wider text-cuecda-primary">Le Coût Caché de l'Inaction</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
+                    <p class="text-3xl font-black text-red-500 mb-2">-40%</p>
+                    <p class="text-sm font-bold opacity-80">De perte de rendement direct liée à la progression fulgurante du Swollen Shoot.</p>
                 </div>
-            </div>
-
-            <!-- Financial Calculation & Receipt View -->
-            <div class="summary-box" id="summaryBox">
-                <div class="summary-row">
-                    <span id="labelInputName">Intrant : -</span>
-                    <span id="valDosage">-</span>
+                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
+                    <p class="text-3xl font-black text-red-500 mb-2">15%</p>
+                    <p class="text-sm font-bold opacity-80">De fèves rejetées en coopérative dues à la dégradation de la qualité des cabosses.</p>
                 </div>
-                <div class="summary-row">
-                    <span>Prix Brut Total :</span>
-                    <span id="valBrut">0 FCFA</span>
-                </div>
-                <div class="summary-row">
-                    <span>Remise Appliquée :</span>
-                    <span class="discount-tag" id="valDiscount">0% (0 FCFA)</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Montant Final TTC :</span>
-                    <span id="valTotal">0 FCFA</span>
+                <div class="p-6 bg-white rounded-3xl border-l-4 border-red-500 shadow-sm">
+                    <p class="text-3xl font-black text-red-500 mb-2">IMMÉDIAT</p>
+                    <p class="text-sm font-bold opacity-80">Risque d'arrachage préventif imposé et perte totale du capital de la parcelle.</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- ADMIN PANEL (Sécurisé par URL exacte avec les 3 blocs demandés) -->
-            <div class="card admin-panel" id="uiAdminPanel">
-                <h3>Panneau Administration</h3>
+    <!-- PREUVE PAR L'EXPERTISE (Autorité) -->
+    <section class="py-16 px-5 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8 text-center">Les bastions agricoles qui nous font confiance</p>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-6 items-center opacity-40 grayscale contrast-125 mb-16">
+                <span class="font-black text-lg italic">SOUBRÉ</span>
+                <span class="font-black text-lg italic">SAN-PEDRO</span>
+                <span class="font-black text-lg italic">GAGNOA</span>
+                <span class="font-black text-lg italic">DALOA</span>
+                <span class="font-black text-lg italic">BOUAFLÉ</span>
+                <span class="font-black text-lg italic">MÉAGUI</span>
+            </div>
+            <div class="bg-cuecda-primary/5 p-8 rounded-[40px] border border-cuecda-primary/10">
+                <p class="text-cuecda-primary font-black text-xl mb-2 italic">L'Innovation VITAL PLUS</p>
+                <p class="text-slate-600 font-bold text-sm">
+                    Solution <strong>éprouvée</strong> : Protégez votre investissement foncier grâce à une approche agro-scientifique ciblée.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RENTABILITÉ PURE (Solution) -->
+    <section class="py-16 px-5 bg-slate-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-black text-center mb-12">Nos Piliers de Rentabilité</h2>
+            <div class="space-y-4">
+                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
+                        <i class="fas fa-seedling text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-lg">Traitement Préventif</h3>
+                        <p class="text-xs text-slate-500 font-bold">Un bouclier phytosanitaire intraitable face aux maladies endémiques du cacao.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
+                        <i class="fas fa-leaf text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-lg">Régénération des Sols</h3>
+                        <p class="text-xs text-slate-500 font-bold">Redonnez de la vigueur à vos plants fatigués et pérennisez vos prochaines campagnes.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-5 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+                    <div class="bg-cuecda-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-green-200">
+                        <i class="fas fa-chart-bar text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-lg">Rendement Maximisé</h3>
+                        <p class="text-xs text-slate-500 font-bold">Stabilisez votre volume de production et maximisez votre tonnage à l'hectare.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LA GRILLE DE RENTABILITÉ (Avant / Après) -->
+    <section class="py-16 px-4 md:px-5 bg-white border-y border-slate-100">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-black text-center mb-8 md:mb-12 text-slate-900">Le Contraste de Rentabilité</h2>
+            
+            <div class="bg-slate-50 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm border border-slate-200">
+                <!-- Header -->
+                <div class="grid grid-cols-2 text-center border-b border-slate-200">
+                    <div class="p-3 md:p-4 bg-slate-200 font-bold text-slate-600 uppercase tracking-wider text-[10px] md:text-xs">Gestion Classique</div>
+                    <div class="p-3 md:p-4 bg-cuecda-primary text-white font-black uppercase tracking-wider text-[10px] md:text-xs shadow-inner">Approche CUECDA</div>
+                </div>
                 
-                <div class="admin-section-title">Tarifs Unitaires Intrants (FCFA)</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Riz (Sac)</label>
-                        <input type="number" id="admPriceRiz">
+                <!-- Ligne 1 -->
+                <div class="grid grid-cols-2 text-center border-b border-slate-200">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
+                        <p>La maladie est une <br class="md:hidden"><span class="text-red-500 font-bold">fatalité agricole</span></p>
                     </div>
-                    <div class="form-group">
-                        <label>Cacao (Sachet)</label>
-                        <input type="number" id="admPriceCacao">
-                    </div>
-                    <div class="form-group">
-                        <label>Maraîcher (Bidon)</label>
-                        <input type="number" id="admPriceMaraicher">
-                    </div>
-                    <div class="form-group">
-                        <label>Hévéa (Bidon)</label>
-                        <input type="number" id="admPriceHevea">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
+                        <p>Un <span class="text-cuecda-primary">levier de rendement</span> maîtrisé</p>
                     </div>
                 </div>
 
-                <div class="admin-section-title">Seuils et Taux de Remise Globaux</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Seuil 1 (FCFA)</label>
-                        <input type="number" id="admThreshold1">
+                <!-- Ligne 2 -->
+                <div class="grid grid-cols-2 text-center border-b border-slate-200">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
+                        <p>Réaction post-infection <br class="md:hidden"><span class="text-[10px] md:text-xs opacity-80">(arrachage massif)</span></p>
                     </div>
-                    <div class="form-group">
-                        <label>Remise 1 (%)</label>
-                        <input type="number" id="admDiscount1">
-                    </div>
-                    <div class="form-group">
-                        <label>Seuil 2 (FCFA)</label>
-                        <input type="number" id="admThreshold2">
-                    </div>
-                    <div class="form-group">
-                        <label>Remise 2 (%)</label>
-                        <input type="number" id="admDiscount2">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
+                        <p>Prévention et continuité des récoltes</p>
                     </div>
                 </div>
 
-                <div class="admin-section-title">Ratios par Type de Culture (par Ha)</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Riz (sacs/Ha)</label>
-                        <input type="number" id="admRatioRiz">
+                <!-- Ligne 3 -->
+                <div class="grid grid-cols-2 text-center border-b border-slate-200">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
+                        <p>Baisse de revenus et <br class="md:hidden"><span class="text-red-500 font-bold">perte de terres</span></p>
                     </div>
-                    <div class="form-group">
-                        <label>Cacao (sachets/Ha)</label>
-                        <input type="number" id="admRatioCacao">
-                    </div>
-                    <div class="form-group">
-                        <label>Maraîcher (bidons/Ha)</label>
-                        <input type="number" id="admRatioMaraicher">
-                    </div>
-                    <div class="form-group">
-                        <label>Hévéa (bidons/Ha)</label>
-                        <input type="number" id="admRatioHevea">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
+                        <p>Sérénité d'exploitation totale</p>
                     </div>
                 </div>
-
-                <button class="btn-save" id="btnSaveConfig">Sauvegarder les Paramètres</button>
+                
+                <!-- Ligne 4 -->
+                <div class="grid grid-cols-2 text-center">
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-600 font-medium border-r border-slate-200 flex items-center justify-center">
+                        <p>Intrants chimiques classiques</p>
+                    </div>
+                    <div class="p-3 md:p-5 text-xs md:text-sm text-slate-900 font-black bg-green-50/50 flex items-center justify-center">
+                        <p>Solution ciblée via <br class="md:hidden"><span class="text-cuecda-primary underline decoration-cuecda-accent">Vital Plus</span></p>
+                    </div>
+                </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-        <!-- FOOTER / ACTION -->
-        <footer>
-            <button class="btn-whatsapp" id="btnWhatsApp">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                </svg>
-                Générer Bon WhatsApp
+    <!-- SOCIAL PROOF (Témoignage) -->
+    <section class="py-20 px-5 bg-white overflow-hidden relative">
+        <div class="max-w-2xl mx-auto text-center relative z-10">
+            <i class="fas fa-quote-left text-cuecda-accent text-4xl mb-6 opacity-50"></i>
+            <p class="text-xl font-black italic text-slate-800 mb-8 leading-relaxed">
+                "Je voyais le Swollen Shoot comme une condamnation de mes terres. Avec l'approche de CUECDA et le traitement Vital Plus, nos rendements ont bondi et l'état sanitaire de la plantation s'est complètement transformé. C'est un investissement vital."
+            </p>
+            <div class="flex items-center justify-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border-2 border-cuecda-accent">
+                    <i class="fas fa-user-tie text-slate-400"></i>
+                </div>
+                <div class="text-left">
+                    <p class="font-black text-sm uppercase">P.C.A de Coopérative</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Région du Bas-Sassandra</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APPEL À L'ACTION FINAL -->
+    <section id="diagnostic" class="py-16 px-5 bg-cuecda-primary text-white rounded-t-[50px] text-center">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-black mb-6">Prêt à sauver et rentabiliser vos plantations ?</h2>
+            <p class="text-sm font-bold opacity-70 mb-10 uppercase tracking-widest">30 secondes pour évaluer l'état de vos cultures.</p>
+            
+            <button onclick="window.open('https://wa.me/2250555167477?text=Bonjour%20CUECDA,%20je%20souhaite%20r%C3%A9server%20mon%20diagnostic%20agricole%20gratuit.', '_blank')" class="w-full bg-cuecda-accent text-green-900 font-black py-6 rounded-3xl text-xl shadow-2xl shadow-green-900 hover:scale-105 transition-transform">
+                MON DIAGNOSTIC AGRICOLE GRATUIT <i class="fab fa-whatsapp ml-2"></i>
             </button>
-        </footer>
-    </div>
-
-    <!-- ==========================================
-       JAVASCRIPT CORE (ES6 Vanilla Architecture)
-       ========================================== -->
-    <script>
-        'use strict';
-
-        const STORAGE_KEY = 'VITAL_PLUS_EXPRESS_CONFIG_V6';
-        const ADMIN_SECRET_KEY = 'CUECDA2026';
-
-        const DEFAULT_CONFIG = {
-            crops: {
-                riz: { name: "Riz", unit: "sacs", price: 25000, ratio: 4 },
-                cacao: { name: "Cacao", unit: "sachets", price: 12000, ratio: 10 },
-                maraicher: { name: "Maraîcher", unit: "bidons", price: 8500, ratio: 6 },
-                hevea: { name: "Hévéa", unit: "bidons", price: 15000, ratio: 8 }
-            },
-            discounts: [
-                { threshold: 1000000, rate: 10 },
-                { threshold: 500000, rate: 5 }
-            ]
-        };
-
-        class StateStore {
-            constructor() {
-                this.load();
-            }
-
-            load() {
-                try {
-                    const raw = localStorage.getItem(STORAGE_KEY);
-                    if (raw) {
-                        this.config = JSON.parse(raw);
-                    } else {
-                        this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-                        this.save();
-                    }
-                } catch (e) {
-                    this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-                }
-            }
-
-            save() {
-                try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.config));
-                } catch (e) {
-                    console.error("Storage persistence error", e);
-                }
-            }
-
-            getConfig() {
-                return this.config;
-            }
-
-            updateConfig(newConfig) {
-                this.config = newConfig;
-                this.save();
-            }
-        }
-
-        const store = new StateStore();
-
-        class BusinessLogic {
-            static sanitize(str) {
-                const temp = document.createElement('div');
-                temp.textContent = str || '';
-                return temp.innerHTML;
-            }
-
-            static calculate(cropKey, surface) {
-                const config = store.getConfig();
-                const cropData = config.crops[cropKey] || config.crops['riz'];
-                
-                const surf = Math.max(0.1, parseFloat(surface) || 0);
-                const quantity = Math.ceil(surf * cropData.ratio);
-                const brutPrice = quantity * cropData.price;
-
-                let discountRate = 0;
-                const sortedDiscounts = [...config.discounts].sort((a, b) => b.threshold - a.threshold);
-                for (let d of sortedDiscounts) {
-                    if (brutPrice >= d.threshold) {
-                        discountRate = d.rate;
-                        break;
-                    }
-                }
-
-                const discountAmount = Math.round(brutPrice * (discountRate / 100));
-                const finalPrice = brutPrice - discountAmount;
-
-                return {
-                    cropName: cropData.name,
-                    unitName: cropData.unit,
-                    quantity: quantity,
-                    unitPrice: cropData.price,
-                    brutPrice: brutPrice,
-                    discountRate: discountRate,
-                    discountAmount: discountAmount,
-                    finalPrice: finalPrice
-                };
-            }
-
-            static generateWhatsAppLink(clientName, clientZone, cropKey, surface) {
-                const name = this.sanitize(clientName.trim()) || "Client Anonyme";
-                const zone = this.sanitize(clientZone.trim()) || "Zone Non Spécifiée";
-                const calc = this.calculate(cropKey, surface);
-
-                const message = 
-`CLIENT : ${name}
-LOCALISATION : ${zone}
-CULTURE : ${calc.cropName}
-SURFACE : ${surface} Ha
-DOSAGE TECHNIQUE : ${calc.quantity} ${calc.unitName}
-MONTANT TOTAL (TTC) : ${calc.finalPrice.toLocaleString()} FCFA
-STATUT : Commande générée via Vital Plus Express`;
-
-                const targetPhone = "22500000000"; 
-                return `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(message)}`;
-            }
-        }
-
-        class UIController {
-            constructor() {
-                this.bindElements();
-                this.initMode();
-                this.renderCropOptions();
-                this.initListeners();
-                this.updateCalculations();
-            }
-
-            bindElements() {
-                this.cropSelect = document.getElementById('cropSelect');
-                this.surfaceInput = document.getElementById('surfaceInput');
-                this.clientNameInput = document.getElementById('clientName');
-                this.clientZoneInput = document.getElementById('clientZone');
-                
-                this.labelInputName = document.getElementById('labelInputName');
-                this.valDosage = document.getElementById('valDosage');
-                this.valBrut = document.getElementById('valBrut');
-                this.valDiscount = document.getElementById('valDiscount');
-                this.valTotal = document.getElementById('valTotal');
-                
-                this.btnWhatsApp = document.getElementById('btnWhatsApp');
-                this.uiAdminPanel = document.getElementById('uiAdminPanel');
-                this.clientCard = document.getElementById('clientCard');
-                this.agroCard = document.getElementById('agroCard');
-                this.summaryBox = document.getElementById('summaryBox');
-                this.btnSaveConfig = document.getElementById('btnSaveConfig');
-            }
-
-            initMode() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const mode = urlParams.get('mode');
-                const key = urlParams.get('key');
-
-                if (mode === 'admin' && key === ADMIN_SECRET_KEY) {
-                    this.uiAdminPanel.style.display = 'flex';
-                    this.clientCard.style.display = 'none';
-                    this.agroCard.style.display = 'none';
-                    this.summaryBox.style.display = 'none';
-                    this.populateAdminFields();
-                } else {
-                    this.uiAdminPanel.style.display = 'none';
-                }
-            }
-
-            renderCropOptions() {
-                const config = store.getConfig();
-                this.cropSelect.innerHTML = '';
-                for (let key in config.crops) {
-                    const opt = document.createElement('option');
-                    opt.value = key;
-                    opt.textContent = config.crops[key].name;
-                    this.cropSelect.appendChild(opt);
-                }
-            }
-
-            updateCalculations() {
-                const cropKey = this.cropSelect.value;
-                const surface = this.surfaceInput.value;
-                const calc = BusinessLogic.calculate(cropKey, surface);
-
-                this.labelInputName.textContent = `Intrant (${calc.cropName}) :`;
-                this.valDosage.textContent = `${calc.quantity} ${calc.unitName}`;
-                this.valBrut.textContent = `${calc.brutPrice.toLocaleString()} FCFA`;
-                this.valDiscount.textContent = `${calc.discountRate}% (-${calc.discountAmount.toLocaleString()} FCFA)`;
-                this.valTotal.textContent = `${calc.finalPrice.toLocaleString()} FCFA`;
-            }
-
-            initListeners() {
-                const triggerUpdate = () => {
-                    requestAnimationFrame(() => this.updateCalculations());
-                };
-
-                this.cropSelect.addEventListener('change', triggerUpdate);
-                this.surfaceInput.addEventListener('input', triggerUpdate);
-
-                this.btnWhatsApp.addEventListener('click', () => {
-                    const name = this.clientNameInput.value;
-                    const zone = this.clientZoneInput.value;
-                    const cropKey = this.cropSelect.value;
-                    const surface = this.surfaceInput.value;
-
-                    const url = BusinessLogic.generateWhatsAppLink(name, zone, cropKey, surface);
-                    window.open(url, '_blank');
-                });
-
-                if (this.btnSaveConfig) {
-                    this.btnSaveConfig.addEventListener('click', () => {
-                        this.saveAdminConfig();
-                    });
-                }
-            }
-
-            populateAdminFields() {
-                const cfg = store.getConfig();
-                
-                // Tarifs
-                document.getElementById('admPriceRiz').value = cfg.crops.riz.price;
-                document.getElementById('admPriceCacao').value = cfg.crops.cacao.price;
-                document.getElementById('admPriceMaraicher').value = cfg.crops.maraicher.price;
-                document.getElementById('admPriceHevea').value = cfg.crops.hevea.price;
-
-                // Seuils et Remises
-                const t1 = cfg.discounts.find(d => d.rate === 5) || { threshold: 500000 };
-                const t2 = cfg.discounts.find(d => d.rate === 10) || { threshold: 1000000 };
-                document.getElementById('admThreshold1').value = t1.threshold;
-                document.getElementById('admDiscount1').value = 5;
-                document.getElementById('admThreshold2').value = t2.threshold;
-                document.getElementById('admDiscount2').value = 10;
-
-                // Ratios
-                document.getElementById('admRatioRiz').value = cfg.crops.riz.ratio;
-                document.getElementById('admRatioCacao').value = cfg.crops.cacao.ratio;
-                document.getElementById('admRatioMaraicher').value = cfg.crops.maraicher.ratio;
-                document.getElementById('admRatioHevea').value = cfg.crops.hevea.ratio;
-            }
-
-            saveAdminConfig() {
-                const cfg = store.getConfig();
-                
-                // Sauvegarde des prix
-                cfg.crops.riz.price = parseFloat(document.getElementById('admPriceRiz').value) || cfg.crops.riz.price;
-                cfg.crops.cacao.price = parseFloat(document.getElementById('admPriceCacao').value) || cfg.crops.cacao.price;
-                cfg.crops.maraicher.price = parseFloat(document.getElementById('admPriceMaraicher').value) || cfg.crops.maraicher.price;
-                cfg.crops.hevea.price = parseFloat(document.getElementById('admPriceHevea').value) || cfg.crops.hevea.price;
-
-                // Sauvegarde des seuils et remises
-                const t1Val = parseFloat(document.getElementById('admThreshold1').value) || 500000;
-                const r1Val = parseFloat(document.getElementById('admDiscount1').value) || 5;
-                const t2Val = parseFloat(document.getElementById('admThreshold2').value) || 1000000;
-                const r2Val = parseFloat(document.getElementById('admDiscount2').value) || 10;
-
-                cfg.discounts = [
-                    { threshold: t2Val, rate: r2Val },
-                    { threshold: t1Val, rate: r1Val }
-                ];
-
-                // Sauvegarde des ratios
-                cfg.crops.riz.ratio = parseFloat(document.getElementById('admRatioRiz').value) || cfg.crops.riz.ratio;
-                cfg.crops.cacao.ratio = parseFloat(document.getElementById('admRatioCacao').value) || cfg.crops.cacao.ratio;
-                cfg.crops.maraicher.ratio = parseFloat(document.getElementById('admRatioMaraicher').value) || cfg.crops.maraicher.ratio;
-                cfg.crops.hevea.ratio = parseFloat(document.getElementById('admRatioHevea').value) || cfg.crops.hevea.ratio;
-
-                store.updateConfig(cfg);
-                this.renderCropOptions();
-                this.updateCalculations();
-                alert('Paramètres d\'administration sauvegardés avec succès.');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            window.appUI = new UIController();
-        });
-    </script>
+            
+            <div class="mt-16 grid grid-cols-2 gap-8 text-[10px] font-black opacity-30 text-white uppercase tracking-tighter">
+                <div>© 2026 CUECDA</div>
+                <div>ABIDJAN, CÔTE D'IVOIRE</div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
